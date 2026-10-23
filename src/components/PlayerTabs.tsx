@@ -19,8 +19,8 @@ export const PlayerTabs: React.FC<PlayerTabsProps> = ({ players, activePlayerInd
             key={player.id}
             className={`p-3 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
               isActive
-                ? 'bg-dart-card border-dart-cyan shadow-neon-cyan'
-                : 'bg-dart-surface/60 border-dart-border/80 opacity-75'
+                ? 'bg-dart-card border-dart-cyan shadow-neon-cyan ring-1 ring-dart-cyan/40'
+                : 'bg-dart-surface/60 border-dart-border/80 opacity-60'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -28,9 +28,7 @@ export const PlayerTabs: React.FC<PlayerTabsProps> = ({ players, activePlayerInd
                 {player.name}
               </span>
               {isActive && (
-                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-dart-cyan text-black rounded">
-                  THROWING
-                </span>
+                <span className="w-2 h-2 rounded-full bg-dart-cyan animate-pulse"></span>
               )}
             </div>
 
@@ -40,9 +38,8 @@ export const PlayerTabs: React.FC<PlayerTabsProps> = ({ players, activePlayerInd
               </span>
             </div>
 
-            <div className="text-[10px] font-mono text-slate-400 flex items-center justify-between">
-              <span>PPD: {player.stats.ppd.toFixed(1)}</span>
-              <span>Rounds: {player.rounds.length}</span>
+            <div className="text-[10px] font-mono text-slate-400">
+              PPD {player.stats.ppd.toFixed(1)}
             </div>
           </div>
         );

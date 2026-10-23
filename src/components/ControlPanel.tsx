@@ -22,19 +22,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       <button
         onClick={onUndo}
         disabled={!canUndo}
-        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-40 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
-        title="直前の1投を取り消す"
+        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-30 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
       >
         <Undo2 className="w-4 h-4" />
-        <span>1投取消</span>
+        <span>UNDO</span>
       </button>
 
       {/* Miss Button */}
       <button
         onClick={onMiss}
         disabled={waitingForChange}
-        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-40 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
-        title="盤外・無得点"
+        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-30 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
       >
         <Ban className="w-4 h-4 text-slate-400" />
         <span>MISS</span>

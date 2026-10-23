@@ -64,13 +64,9 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
       const angleStart = angleCenter - 9;
       const angleEnd = angleCenter + 9;
 
-      // Color rules:
-      // Even index (0, 2, 4...) -> Red/Black
-      // Odd index (1, 3, 5...) -> Green/Cream
       const isRedOrGreen = i % 2 === 0 ? '#D8262C' : '#0F7A3D';
       const singleColor = i % 2 === 0 ? '#1A1A1A' : '#E6DEC8';
 
-      // Text position for number
       const textRad = (angleCenter * Math.PI) / 180;
       const textX = center + 188 * Math.cos(textRad);
       const textY = center + 188 * Math.sin(textRad);
@@ -106,12 +102,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col items-center p-3 bg-dart-surface/70 border border-dart-border rounded-2xl backdrop-blur">
-      <div className="flex items-center justify-between w-full max-w-sm mb-2 px-1 text-xs text-slate-400 font-mono">
-        <span className="font-bold text-white">VIRTUAL DARTBOARD</span>
-        <span>クリックでヒット入力</span>
-      </div>
-
+    <div className="w-full flex flex-col items-center p-4 bg-dart-surface/70 border border-dart-border rounded-2xl backdrop-blur">
       <div className="relative w-full max-w-[320px] sm:max-w-[360px] aspect-square flex items-center justify-center">
         <svg
           viewBox="0 0 400 400"
@@ -131,9 +122,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
                 onClick={() => onSegmentClick(seg.ids.doubleId)}
-              >
-                <title>{`D${seg.num} (Double)`}</title>
-              </path>
+              />
 
               {/* Outer Single */}
               <path
@@ -143,9 +132,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
                 onClick={() => onSegmentClick(seg.ids.outerSingleId)}
-              >
-                <title>{`S${seg.num} (Outer Single)`}</title>
-              </path>
+              />
 
               {/* Triple Ring */}
               <path
@@ -155,9 +142,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
                 onClick={() => onSegmentClick(seg.ids.tripleId)}
-              >
-                <title>{`T${seg.num} (Triple)`}</title>
-              </path>
+              />
 
               {/* Inner Single */}
               <path
@@ -167,9 +152,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
                 onClick={() => onSegmentClick(seg.ids.innerSingleId)}
-              >
-                <title>{`S${seg.num} (Inner Single)`}</title>
-              </path>
+              />
 
               {/* Wire Number on Outer Rim */}
               <text
@@ -197,9 +180,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
             strokeWidth="0.8"
             className="hover:opacity-80 transition cursor-pointer"
             onClick={() => onSegmentClick(0x51)}
-          >
-            <title>Outer Bull (25 / 50)</title>
-          </circle>
+          />
 
           {/* Inner Bull (Double Bull, 82) */}
           <circle
@@ -211,35 +192,33 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
             strokeWidth="0.8"
             className="hover:opacity-80 transition cursor-pointer"
             onClick={() => onSegmentClick(0x52)}
-          >
-            <title>Double Bull (50)</title>
-          </circle>
+          />
         </svg>
       </div>
 
       {/* Manual Input Buttons */}
-      <div className="flex items-center space-x-2 mt-3 w-full max-w-sm justify-center">
+      <div className="flex items-center space-x-2 mt-4 w-full max-w-sm justify-center">
         <button
           onClick={() => onSegmentClick(0)}
-          className="flex-1 py-1.5 px-3 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-300 font-bold text-xs rounded-lg transition"
+          className="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-300 font-bold text-xs rounded-lg transition"
         >
-          MISS (0点)
+          MISS
         </button>
         <button
           onClick={() => onSegmentClick(0x51)}
-          className="py-1.5 px-3 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 font-bold text-xs rounded-lg transition"
+          className="py-2 px-3.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 font-bold text-xs rounded-lg transition"
         >
-          BULL (50/25)
+          BULL
         </button>
         <button
           onClick={() => onSegmentClick(0x52)}
-          className="py-1.5 px-3 bg-rose-950 hover:bg-rose-900 border border-rose-700 text-rose-300 font-bold text-xs rounded-lg transition"
+          className="py-2 px-3.5 bg-rose-950 hover:bg-rose-900 border border-rose-700 text-rose-300 font-bold text-xs rounded-lg transition"
         >
-          D-BULL (50)
+          D-BULL
         </button>
         <button
           onClick={onChangeClick}
-          className="py-1.5 px-3 bg-red-700 hover:bg-red-600 active:scale-95 text-white font-bold text-xs rounded-lg shadow-neon-red transition"
+          className="py-2 px-3.5 bg-red-700 hover:bg-red-600 active:scale-95 text-white font-bold text-xs rounded-lg shadow-neon-red transition"
         >
           CHANGE
         </button>

@@ -32,7 +32,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       <div className="w-full max-w-md bg-dart-card border border-dart-border rounded-2xl p-6 shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-dart-border">
-          <h3 className="font-display font-bold text-lg text-white">ゲーム設定</h3>
+          <h3 className="font-display font-bold text-lg text-white">SETTINGS</h3>
           <button
             onClick={onClose}
             className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
@@ -45,7 +45,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="py-4 space-y-4 max-h-[70vh] overflow-y-auto text-sm">
           {/* Player Count */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5">プレイヤー人数</label>
+            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">PLAYERS</label>
             <div className="grid grid-cols-4 gap-2">
               {[1, 2, 3, 4].map((cnt) => (
                 <button
@@ -65,7 +65,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Bull Rule */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5">Bull 設定</label>
+            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">BULL</label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setSettings({ ...settings, bullRule: 'fat' })}
@@ -75,7 +75,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
                 }`}
               >
-                Fat Bull (50 / 50)
+                50 / 50
               </button>
               <button
                 onClick={() => setSettings({ ...settings, bullRule: 'separate' })}
@@ -85,14 +85,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
                 }`}
               >
-                Separate Bull (25 / 50)
+                25 / 50
               </button>
             </div>
           </div>
 
           {/* Finish Rule */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5">フィニッシュ (Out) ルール</label>
+            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">FINISH</label>
             <div className="grid grid-cols-3 gap-2">
               {(['open', 'master', 'double'] as const).map((rule) => (
                 <button
@@ -108,16 +108,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 </button>
               ))}
             </div>
-            <p className="text-[11px] font-mono text-slate-400 mt-1">
-              {settings.finishRule === 'open' && 'どのセグメントでも0点にすればクリア'}
-              {settings.finishRule === 'master' && '最後は Double, Triple, または Bull でクリア'}
-              {settings.finishRule === 'double' && '最後は Double または Double Bull でクリア'}
-            </p>
           </div>
 
           {/* Max Rounds */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5">最大ラウンド数</label>
+            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">ROUNDS</label>
             <div className="grid grid-cols-3 gap-2">
               {[10, 15, 20].map((rounds) => (
                 <button
@@ -129,7 +124,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
                   }`}
                 >
-                  {rounds} Rounds
+                  {rounds}
                 </button>
               ))}
             </div>
@@ -137,10 +132,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Auto Change Toggle */}
           <div className="flex items-center justify-between p-3 bg-dart-surface rounded-xl border border-dart-border">
-            <div>
-              <span className="font-bold text-white text-xs block">3投後自動チェンジ</span>
-              <span className="text-[11px] text-slate-400">3投完了時に自動で次プレイヤーへ移行</span>
-            </div>
+            <span className="font-bold text-white text-xs uppercase font-mono">AUTO CHANGE</span>
             <button
               onClick={() => setSettings({ ...settings, autoChange: !settings.autoChange })}
               className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
@@ -162,14 +154,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition"
           >
-            キャンセル
+            CANCEL
           </button>
           <button
             onClick={handleApply}
             className="px-4 py-2 bg-dart-cyan hover:opacity-90 active:scale-95 text-black rounded-lg text-xs font-bold flex items-center space-x-1.5 shadow-neon-cyan transition"
           >
             <Check className="w-4 h-4" />
-            <span>設定を適用して開始</span>
+            <span>APPLY</span>
           </button>
         </div>
       </div>
