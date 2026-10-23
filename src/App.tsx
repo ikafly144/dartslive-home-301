@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDartGame } from './hooks/useDartGame';
 import { useBluetoothBoard } from './hooks/useBluetoothBoard';
+import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { Header } from './components/Header';
 import { ScoreBoard } from './components/ScoreBoard';
 import { PlayerTabs } from './components/PlayerTabs';
@@ -19,6 +20,28 @@ export function App() {
 
   const bluetooth = useBluetoothBoard(game.settings.bullRule, (signal) => {
     game.handleBoardSignal(signal);
+  });
+
+  useKeyboardControls({
+    enabled: !isSettingsOpen && !game.isGameOver,
+    onMiss: () => {
+      if (!game.waitingForChange) {
+        bluetooth.emitMockSegment(0);
+      }
+    },
+    onChange: () => {
+      game.changeRound();
+    },
+    onUndo: () => {
+      if (game.activePlayer.currentRoundDarts.length > 0 && !game.isGameOver) {
+        game.undoLastDart();
+      }
+    },
+    onBull: (isDouble) => {
+      if (!game.waitingForChange) {
+        bluetooth.emitMockSegment(isDouble ? 0x52 : 0x51);
+      }
+    },
   });
 
   const handleApplySettings = (newCount: number, newSettings: GameSettings) => {
