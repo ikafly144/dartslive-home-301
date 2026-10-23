@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Surface, Button } from '@cloudflare/kumo';
 import type { DartHit } from '../types/darts';
 import { getSegmentId } from '../services/dartMath';
 
@@ -10,7 +11,6 @@ interface VirtualBoardProps {
 
 const SECTOR_ORDER = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
 
-// Generate SVG arc path between two radii and two angles in degrees
 const describeArc = (
   x: number,
   y: number,
@@ -102,7 +102,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col items-center p-4 bg-dart-surface/70 border border-dart-border rounded-2xl backdrop-blur">
+    <Surface className="w-full flex flex-col items-center p-4 rounded-2xl border border-kumo-line bg-kumo-base shadow-xl backdrop-blur">
       <div className="relative w-full max-w-[320px] sm:max-w-[360px] aspect-square flex items-center justify-center">
         <svg
           viewBox="0 0 400 400"
@@ -117,7 +117,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
               {/* Double Ring */}
               <path
                 d={seg.doublePath}
-                fill={isSegmentActive(seg.ids.doubleId) ? '#00F0FF' : seg.ringColor}
+                fill={isSegmentActive(seg.ids.doubleId) ? '#F38020' : seg.ringColor}
                 stroke="#333"
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
@@ -127,7 +127,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
               {/* Outer Single */}
               <path
                 d={seg.outerSinglePath}
-                fill={isSegmentActive(seg.ids.outerSingleId) ? '#00F0FF' : seg.singleColor}
+                fill={isSegmentActive(seg.ids.outerSingleId) ? '#F38020' : seg.singleColor}
                 stroke="#333"
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
@@ -137,7 +137,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
               {/* Triple Ring */}
               <path
                 d={seg.triplePath}
-                fill={isSegmentActive(seg.ids.tripleId) ? '#00F0FF' : seg.ringColor}
+                fill={isSegmentActive(seg.ids.tripleId) ? '#F38020' : seg.ringColor}
                 stroke="#333"
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
@@ -147,7 +147,7 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
               {/* Inner Single */}
               <path
                 d={seg.innerSinglePath}
-                fill={isSegmentActive(seg.ids.innerSingleId) ? '#00F0FF' : seg.singleColor}
+                fill={isSegmentActive(seg.ids.innerSingleId) ? '#F38020' : seg.singleColor}
                 stroke="#333"
                 strokeWidth="0.5"
                 className="hover:opacity-80 transition"
@@ -170,24 +170,24 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
             </g>
           ))}
 
-          {/* Outer Bull (Single Bull, 81) */}
+          {/* Outer Bull */}
           <circle
             cx={center}
             cy={center}
             r={rSingleBull}
-            fill={isSegmentActive(0x51) ? '#00F0FF' : '#0F7A3D'}
+            fill={isSegmentActive(0x51) ? '#F38020' : '#0F7A3D'}
             stroke="#222"
             strokeWidth="0.8"
             className="hover:opacity-80 transition cursor-pointer"
             onClick={() => onSegmentClick(0x51)}
           />
 
-          {/* Inner Bull (Double Bull, 82) */}
+          {/* Inner Bull */}
           <circle
             cx={center}
             cy={center}
             r={rDoubleBull}
-            fill={isSegmentActive(0x52) ? '#00F0FF' : '#D8262C'}
+            fill={isSegmentActive(0x52) ? '#F38020' : '#D8262C'}
             stroke="#222"
             strokeWidth="0.8"
             className="hover:opacity-80 transition cursor-pointer"
@@ -196,33 +196,41 @@ export const VirtualBoard: React.FC<VirtualBoardProps> = ({
         </svg>
       </div>
 
-      {/* Manual Input Buttons */}
+      {/* Manual Input Buttons with Kumo */}
       <div className="flex items-center space-x-2 mt-4 w-full max-w-sm justify-center">
-        <button
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={() => onSegmentClick(0)}
-          className="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-300 font-bold text-xs rounded-lg transition"
+          className="flex-1 font-bold"
         >
           MISS
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={() => onSegmentClick(0x51)}
-          className="py-2 px-3.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 font-bold text-xs rounded-lg transition"
+          className="font-bold"
         >
           BULL
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={() => onSegmentClick(0x52)}
-          className="py-2 px-3.5 bg-rose-950 hover:bg-rose-900 border border-rose-700 text-rose-300 font-bold text-xs rounded-lg transition"
+          className="font-bold"
         >
           D-BULL
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="primary"
+          size="sm"
           onClick={onChangeClick}
-          className="py-2 px-3.5 bg-red-700 hover:bg-red-600 active:scale-95 text-white font-bold text-xs rounded-lg shadow-neon-red transition"
+          className="font-bold !bg-red-600 hover:!bg-red-500 text-white"
         >
           CHANGE
-        </button>
+        </Button>
       </div>
-    </div>
+    </Surface>
   );
 };

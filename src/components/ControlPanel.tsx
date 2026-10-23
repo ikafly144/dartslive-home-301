@@ -1,5 +1,6 @@
 import React from 'react';
-import { Undo2, Ban, ArrowRightCircle } from 'lucide-react';
+import { Button } from '@cloudflare/kumo';
+import { ArrowBendUpLeft, Prohibit, ArrowRight } from '@phosphor-icons/react';
 
 interface ControlPanelProps {
   waitingForChange: boolean;
@@ -19,37 +20,43 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   return (
     <div className="w-full flex items-center justify-between gap-3 mt-4">
       {/* Undo Button */}
-      <button
-        onClick={onUndo}
+      <Button
+        variant="secondary"
+        size="lg"
         disabled={!canUndo}
-        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-30 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
+        onClick={onUndo}
+        icon={<ArrowBendUpLeft size={18} />}
+        className="flex-1 font-bold"
       >
-        <Undo2 className="w-4 h-4" />
-        <span>UNDO</span>
-      </button>
+        UNDO
+      </Button>
 
       {/* Miss Button */}
-      <button
-        onClick={onMiss}
+      <Button
+        variant="secondary"
+        size="lg"
         disabled={waitingForChange}
-        className="flex items-center justify-center space-x-1.5 px-4 py-3 bg-dart-card hover:bg-slate-700 active:scale-95 disabled:opacity-30 disabled:pointer-events-none border border-dart-border text-slate-300 hover:text-white rounded-xl text-sm font-semibold transition flex-1"
+        onClick={onMiss}
+        icon={<Prohibit size={18} />}
+        className="flex-1 font-bold"
       >
-        <Ban className="w-4 h-4 text-slate-400" />
-        <span>MISS</span>
-      </button>
+        MISS
+      </Button>
 
-      {/* Big DARTSLIVE Red CHANGE Button */}
-      <button
+      {/* Change Button */}
+      <Button
+        variant="primary"
+        size="lg"
         onClick={onChange}
-        className={`flex items-center justify-center space-x-2 px-6 py-3 rounded-xl font-display font-bold text-sm sm:text-base tracking-wider uppercase transition-all duration-200 active:scale-95 flex-[1.5] shadow-lg ${
+        icon={<ArrowRight size={18} />}
+        className={`flex-[1.5] font-bold font-display tracking-wider uppercase transition-all ${
           waitingForChange
-            ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white border border-rose-400 shadow-neon-red animate-pulse'
-            : 'bg-red-950/70 hover:bg-red-900 border border-red-800 text-red-200 hover:text-white'
+            ? '!bg-red-600 hover:!bg-red-500 !ring-red-400 text-white animate-pulse shadow-lg'
+            : ''
         }`}
       >
-        <ArrowRightCircle className="w-5 h-5" />
-        <span>CHANGE</span>
-      </button>
+        CHANGE
+      </Button>
     </div>
   );
 };

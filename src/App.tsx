@@ -30,7 +30,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-dart-bg flex flex-col text-slate-100">
+    <div className="min-h-screen bg-kumo-recessed flex flex-col text-kumo-default font-sans antialiased">
       {/* Header */}
       <Header
         connectionState={bluetooth.state}

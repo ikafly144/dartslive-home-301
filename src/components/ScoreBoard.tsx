@@ -1,4 +1,5 @@
 import React from 'react';
+import { Surface, Badge } from '@cloudflare/kumo';
 import type { Player, GameSettings } from '../types/darts';
 
 interface ScoreBoardProps {
@@ -49,25 +50,27 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
   return (
     <div className="w-full flex flex-col items-center">
       {/* Round & Stats Bar */}
-      <div className="w-full flex items-center justify-between text-xs sm:text-sm font-mono text-slate-400 mb-2 px-1">
-        <div className="flex items-center space-x-2">
-          <span className="bg-dart-card border border-dart-border px-2.5 py-1 rounded text-white font-bold">
-            ROUND {currentRound}/{maxRounds}
-          </span>
-        </div>
+      <div className="w-full flex items-center justify-between text-xs font-mono text-kumo-subtle mb-2 px-1">
+        <Badge variant="outline" className="font-bold">
+          ROUND {currentRound}/{maxRounds}
+        </Badge>
 
-        <div className="flex items-center space-x-3 text-xs">
-          <span>PPD <strong className="text-dart-cyan font-bold">{player.stats.ppd.toFixed(1)}</strong></span>
-          <span>PPR <strong className="text-dart-neonGreen font-bold">{player.stats.ppr.toFixed(1)}</strong></span>
+        <div className="flex items-center space-x-2">
+          <Badge variant="neutral" className="font-mono">
+            PPD {player.stats.ppd.toFixed(1)}
+          </Badge>
+          <Badge variant="neutral" className="font-mono">
+            PPR {player.stats.ppr.toFixed(1)}
+          </Badge>
         </div>
       </div>
 
-      {/* Main Score Display */}
-      <div className="relative w-full bg-gradient-to-b from-dart-card/90 to-dart-surface/90 border-2 border-dart-border rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center shadow-2xl backdrop-blur">
+      {/* Main Score Display Surface */}
+      <Surface className="relative w-full rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center border border-kumo-line bg-kumo-base shadow-xl backdrop-blur">
         {/* Player Name */}
         <div className="flex items-center space-x-2 mb-1">
-          <div className="w-2 h-2 rounded-full bg-dart-cyan animate-pulse"></div>
-          <span className="font-display tracking-widest text-slate-300 font-bold text-sm sm:text-base">
+          <div className="w-2 h-2 rounded-full bg-kumo-brand animate-pulse"></div>
+          <span className="font-display tracking-widest text-kumo-default font-bold text-sm sm:text-base">
             {player.name}
           </span>
         </div>
@@ -76,13 +79,13 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
         <div className="relative my-2 sm:my-3">
           {isBust ? (
             <div className="flex flex-col items-center animate-bounce">
-              <span className="font-display font-black text-6xl sm:text-8xl tracking-tight text-dart-neonRed drop-shadow-[0_0_20px_rgba(255,42,95,0.7)]">
+              <span className="font-display font-black text-6xl sm:text-8xl tracking-tight text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
                 BUST
               </span>
             </div>
           ) : (
             <div className="flex items-baseline justify-center">
-              <span className="font-display font-black text-7xl sm:text-9xl tracking-tight text-white drop-shadow-[0_0_25px_rgba(0,240,255,0.35)] transition-all duration-150">
+              <span className="font-display font-black text-7xl sm:text-9xl tracking-tight text-kumo-default transition-all duration-150">
                 {player.currentScore}
               </span>
             </div>
@@ -91,9 +94,9 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
           {/* Checkout Suggestion */}
           {!isBust && suggestion && (
             <div className="mt-2 text-center">
-              <span className="inline-block px-3 py-1 bg-dart-surface/80 border border-dart-neonGreen/40 text-dart-neonGreen text-xs sm:text-sm font-mono font-bold rounded-full shadow-neon-green">
+              <Badge variant="teal" className="font-mono font-bold text-xs sm:text-sm px-3 py-1">
                 {suggestion}
-              </span>
+              </Badge>
             </div>
           )}
         </div>
@@ -105,14 +108,14 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
             const isCurrentThrowingSlot = currentDarts.length === slotIndex && !waitingForChange;
 
             return (
-              <div
+              <Surface
                 key={slotIndex}
                 className={`relative flex flex-col items-center justify-center py-4 px-2 rounded-xl border transition-all duration-200 ${
                   dart
-                    ? 'bg-dart-surface/90 border-dart-cyan/60 shadow-neon-cyan'
+                    ? 'bg-kumo-recessed border-kumo-brand ring-1 ring-kumo-brand/30'
                     : isCurrentThrowingSlot
-                    ? 'bg-dart-card/80 border-dart-cyan animate-pulse-slow'
-                    : 'bg-dart-surface/40 border-dart-border/60'
+                    ? 'bg-kumo-recessed border-kumo-brand animate-pulse-slow'
+                    : 'bg-kumo-base border-kumo-line opacity-60'
                 }`}
               >
                 {dart ? (
@@ -120,39 +123,39 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
                     <span
                       className={`font-display font-bold text-xl sm:text-2xl ${
                         dart.baseNumber === 25
-                          ? 'text-dart-neonRed drop-shadow-[0_0_8px_rgba(255,42,95,0.6)]'
+                          ? 'text-red-500'
                           : dart.multiplier === 3
-                          ? 'text-dart-neonYellow'
+                          ? 'text-amber-400'
                           : dart.multiplier === 2
-                          ? 'text-dart-neonGreen'
-                          : 'text-white'
+                          ? 'text-emerald-400'
+                          : 'text-kumo-default'
                       }`}
                     >
                       {dart.label}
                     </span>
-                    <span className="text-xs font-mono font-bold text-slate-400 mt-0.5">
+                    <span className="text-xs font-mono font-bold text-kumo-subtle mt-0.5">
                       +{dart.score}
                     </span>
                   </div>
                 ) : (
                   <div className="h-10 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+                    <span className="w-2 h-2 rounded-full bg-kumo-line"></span>
                   </div>
                 )}
-              </div>
+              </Surface>
             );
           })}
         </div>
 
         {/* Round Points Subtotal */}
         {roundTotal > 0 && !isBust && (
-          <div className="mt-4 pt-3 border-t border-dart-border/50 text-center">
-            <span className="font-mono text-xs font-bold text-slate-400">
+          <div className="mt-4 pt-3 border-t border-kumo-line w-full max-w-md text-center">
+            <span className="font-mono text-xs font-bold text-kumo-subtle">
               +{roundTotal}
             </span>
           </div>
         )}
-      </div>
+      </Surface>
     </div>
   );
 };

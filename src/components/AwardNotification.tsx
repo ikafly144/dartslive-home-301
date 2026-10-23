@@ -1,6 +1,6 @@
 import React from 'react';
 import type { AwardEvent } from '../types/darts';
-import { Flame, Trophy, Sparkles } from 'lucide-react';
+import { Flame, Trophy, Sparkle } from '@phosphor-icons/react';
 
 interface AwardNotificationProps {
   award: AwardEvent | null;
@@ -15,25 +15,25 @@ export const AwardNotification: React.FC<AwardNotificationProps> = ({ award }) =
     <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center p-4">
       <div className="relative animate-bounce">
         <div
-          className={`px-8 py-5 rounded-2xl border-2 flex flex-col items-center justify-center backdrop-blur-xl shadow-2xl transition-all ${
+          className={`px-8 py-5 rounded-2xl border flex flex-col items-center justify-center backdrop-blur-xl shadow-2xl transition-all ${
             isSuperAward
-              ? 'bg-gradient-to-r from-amber-950/90 via-red-950/90 to-purple-950/90 border-amber-400 text-amber-200 shadow-neon-yellow'
-              : 'bg-gradient-to-r from-cyan-950/90 via-blue-950/90 to-slate-900/90 border-dart-cyan text-cyan-200 shadow-neon-cyan'
+              ? 'bg-amber-950/90 border-amber-400 text-amber-200'
+              : 'bg-kumo-base/95 border-kumo-brand text-kumo-brand'
           }`}
         >
           <div className="flex items-center space-x-2 mb-1">
             {isSuperAward ? (
-              <Flame className="w-8 h-8 text-amber-400 animate-pulse" />
+              <Flame size={32} className="text-amber-400 animate-pulse" />
             ) : (
-              <Sparkles className="w-8 h-8 text-dart-cyan animate-spin" />
+              <Sparkle size={32} className="text-kumo-brand animate-spin" />
             )}
-            <span className="font-display font-black text-3xl sm:text-4xl tracking-widest uppercase drop-shadow-md">
+            <span className="font-display font-black text-3xl sm:text-4xl tracking-widest uppercase">
               {award.title}
             </span>
             {isSuperAward ? (
-              <Trophy className="w-8 h-8 text-amber-400 animate-pulse" />
+              <Trophy size={32} className="text-amber-400 animate-pulse" />
             ) : (
-              <Sparkles className="w-8 h-8 text-dart-cyan animate-spin" />
+              <Sparkle size={32} className="text-kumo-brand animate-spin" />
             )}
           </div>
 

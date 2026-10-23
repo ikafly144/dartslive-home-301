@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Dialog, Button, Switch } from '@cloudflare/kumo';
+import { X, Check } from '@phosphor-icons/react';
 import type { GameSettings } from '../types/darts';
-import { X, Check } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -20,151 +21,148 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const [selectedCount, setSelectedCount] = useState<number>(playerCount);
   const [settings, setSettings] = useState<GameSettings>(currentSettings);
 
-  if (!isOpen) return null;
-
   const handleApply = () => {
     onSave(selectedCount, settings);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-dart-card border border-dart-border rounded-2xl p-6 shadow-2xl flex flex-col">
+    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Dialog size="base" className="p-6 bg-kumo-base border border-kumo-line">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-dart-border">
-          <h3 className="font-display font-bold text-lg text-white">SETTINGS</h3>
-          <button
-            onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
+        <div className="flex items-center justify-between pb-3 border-b border-kumo-line">
+          <Dialog.Title className="font-display font-bold text-lg text-kumo-default">
+            SETTINGS
+          </Dialog.Title>
+          <Dialog.Close
+            render={(props) => (
+              <Button
+                {...props}
+                variant="ghost"
+                shape="square"
+                size="sm"
+                icon={<X size={16} />}
+                aria-label="Close"
+              />
+            )}
+          />
         </div>
 
         {/* Settings Body */}
-        <div className="py-4 space-y-4 max-h-[70vh] overflow-y-auto text-sm">
+        <div className="py-4 space-y-4 text-sm">
           {/* Player Count */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">PLAYERS</label>
+            <label className="block text-xs font-mono text-kumo-subtle mb-1.5 uppercase font-bold">
+              PLAYERS
+            </label>
             <div className="grid grid-cols-4 gap-2">
               {[1, 2, 3, 4].map((cnt) => (
-                <button
+                <Button
                   key={cnt}
+                  variant={selectedCount === cnt ? 'primary' : 'secondary'}
+                  size="sm"
                   onClick={() => setSelectedCount(cnt)}
-                  className={`py-2 rounded-lg font-display font-bold text-sm border transition ${
-                    selectedCount === cnt
-                      ? 'bg-dart-cyan text-black border-dart-cyan shadow-neon-cyan'
-                      : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
-                  }`}
+                  className="font-display font-bold"
                 >
                   {cnt}P
-                </button>
+                </Button>
               ))}
             </div>
           </div>
 
           {/* Bull Rule */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">BULL</label>
+            <label className="block text-xs font-mono text-kumo-subtle mb-1.5 uppercase font-bold">
+              BULL
+            </label>
             <div className="grid grid-cols-2 gap-2">
-              <button
+              <Button
+                variant={settings.bullRule === 'fat' ? 'primary' : 'secondary'}
+                size="sm"
                 onClick={() => setSettings({ ...settings, bullRule: 'fat' })}
-                className={`py-2 px-3 rounded-lg text-xs font-bold border transition ${
-                  settings.bullRule === 'fat'
-                    ? 'bg-dart-cyan text-black border-dart-cyan shadow-neon-cyan'
-                    : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
-                }`}
+                className="font-bold"
               >
                 50 / 50
-              </button>
-              <button
+              </Button>
+              <Button
+                variant={settings.bullRule === 'separate' ? 'primary' : 'secondary'}
+                size="sm"
                 onClick={() => setSettings({ ...settings, bullRule: 'separate' })}
-                className={`py-2 px-3 rounded-lg text-xs font-bold border transition ${
-                  settings.bullRule === 'separate'
-                    ? 'bg-dart-cyan text-black border-dart-cyan shadow-neon-cyan'
-                    : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
-                }`}
+                className="font-bold"
               >
                 25 / 50
-              </button>
+              </Button>
             </div>
           </div>
 
           {/* Finish Rule */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">FINISH</label>
+            <label className="block text-xs font-mono text-kumo-subtle mb-1.5 uppercase font-bold">
+              FINISH
+            </label>
             <div className="grid grid-cols-3 gap-2">
               {(['open', 'master', 'double'] as const).map((rule) => (
-                <button
+                <Button
                   key={rule}
+                  variant={settings.finishRule === rule ? 'primary' : 'secondary'}
+                  size="sm"
                   onClick={() => setSettings({ ...settings, finishRule: rule })}
-                  className={`py-2 rounded-lg text-xs font-bold border capitalize transition ${
-                    settings.finishRule === rule
-                      ? 'bg-dart-cyan text-black border-dart-cyan shadow-neon-cyan'
-                      : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
-                  }`}
+                  className="font-bold capitalize"
                 >
                   {rule} Out
-                </button>
+                </Button>
               ))}
             </div>
           </div>
 
           {/* Max Rounds */}
           <div>
-            <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase font-bold">ROUNDS</label>
+            <label className="block text-xs font-mono text-kumo-subtle mb-1.5 uppercase font-bold">
+              ROUNDS
+            </label>
             <div className="grid grid-cols-3 gap-2">
               {[10, 15, 20].map((rounds) => (
-                <button
+                <Button
                   key={rounds}
+                  variant={settings.maxRounds === rounds ? 'primary' : 'secondary'}
+                  size="sm"
                   onClick={() => setSettings({ ...settings, maxRounds: rounds })}
-                  className={`py-2 rounded-lg text-xs font-bold border transition ${
-                    settings.maxRounds === rounds
-                      ? 'bg-dart-cyan text-black border-dart-cyan shadow-neon-cyan'
-                      : 'bg-dart-surface border-dart-border text-slate-300 hover:bg-slate-800'
-                  }`}
+                  className="font-bold"
                 >
                   {rounds}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
 
-          {/* Auto Change Toggle */}
-          <div className="flex items-center justify-between p-3 bg-dart-surface rounded-xl border border-dart-border">
-            <span className="font-bold text-white text-xs uppercase font-mono">AUTO CHANGE</span>
-            <button
+          {/* Auto Change Toggle with Kumo Switch */}
+          <div className="flex items-center justify-between p-3 rounded-xl border border-kumo-line bg-kumo-recessed">
+            <span className="font-bold text-xs uppercase font-mono text-kumo-default">
+              AUTO CHANGE
+            </span>
+            <Switch
+              checked={settings.autoChange}
               onClick={() => setSettings({ ...settings, autoChange: !settings.autoChange })}
-              className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
-                settings.autoChange ? 'bg-dart-cyan' : 'bg-slate-700'
-              }`}
-            >
-              <div
-                className={`bg-black w-4 h-4 rounded-full shadow-md transform transition ${
-                  settings.autoChange ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              />
-            </button>
+              aria-label="Auto Change"
+            />
           </div>
         </div>
 
         {/* Footer */}
-        <div className="pt-3 border-t border-dart-border flex items-center justify-end space-x-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition"
-          >
+        <div className="pt-3 border-t border-kumo-line flex items-center justify-end space-x-2">
+          <Button variant="secondary" size="sm" onClick={onClose}>
             CANCEL
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<Check size={16} />}
             onClick={handleApply}
-            className="px-4 py-2 bg-dart-cyan hover:opacity-90 active:scale-95 text-black rounded-lg text-xs font-bold flex items-center space-x-1.5 shadow-neon-cyan transition"
           >
-            <Check className="w-4 h-4" />
-            <span>APPLY</span>
-          </button>
+            APPLY
+          </Button>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Dialog.Root>
   );
 };
